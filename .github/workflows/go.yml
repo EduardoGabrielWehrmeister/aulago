@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -24,8 +24,14 @@ jobs:
     - name: Create-Banco
       run: docker-compose up -d
 
-    - name: Build
-      run: go build -v main.go
-
     - name: Test
       run: go test -v main_test.go
+
+  prompt:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build
+      run: go build -v main.go
